@@ -10,20 +10,29 @@ public class cutsceneStartTrig : MonoBehaviour
 
     void Update()
     {
-        if (activeOnContact)
+        if (!pController.pcDead)
         {
-            if (playerIsHere)
+            if (activeOnContact)
+            {
+                if (playerIsHere)
+                {
+                    startingScene.gameObject.SetActive(true);
+                    GetComponent<BoxCollider2D>().enabled = false;
+                    playerIsHere = false;
+                }
+            }
+            else if (playerIsHere && Input.GetButtonDown("Fire1"))
             {
                 startingScene.gameObject.SetActive(true);
                 GetComponent<BoxCollider2D>().enabled = false;
                 playerIsHere = false;
             }
         }
-        else if (playerIsHere && Input.GetButtonDown("Fire1"))
+        if (pController.pcDead)
         {
-            startingScene.gameObject.SetActive(true);
-            GetComponent<BoxCollider2D>().enabled = false;
-            playerIsHere = false;
+            GetComponent<BoxCollider2D>().enabled = true;
+            startingScene.cutsceneTimer = 0;
+            startingScene.gameObject.SetActive(false);
         }
     }
 
@@ -31,7 +40,10 @@ public class cutsceneStartTrig : MonoBehaviour
     {
         if (collision.gameObject.layer == 9)
         {
-            playerIsHere = true;
+            if (!pController.pcDead)
+            {
+                playerIsHere = true;
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D collision)

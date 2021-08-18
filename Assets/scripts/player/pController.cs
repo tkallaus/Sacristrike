@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using System.Diagnostics;
 
 public class pController : MonoBehaviour
 {
@@ -12,7 +13,6 @@ public class pController : MonoBehaviour
     public float jumpHeight;
     private int jumpCount;
     public static int jumpMax;
-    private bool jumpable;
 
     public static bool climbable = false;
     private bool climbing = false;
@@ -71,10 +71,13 @@ public class pController : MonoBehaviour
     public static Vector2 playerSpawn;
 
     public static bool lobEnabled = false;
+    public static bool SUPERLOB = false;
 
     public static Vector2 pFinalSpeed;
 
     private bool cutsceneControlled = false;
+
+    public static Stopwatch speedrunTimer;
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
@@ -94,6 +97,9 @@ public class pController : MonoBehaviour
 
         playerTransform = transform;
         playerSpawn = transform.position;
+
+        speedrunTimer = new Stopwatch();
+        speedrunTimer.Start();
     }
     
     void Update()
@@ -176,6 +182,10 @@ public class pController : MonoBehaviour
             {
                 lobCharging = false;
             }
+        }
+        if (SUPERLOB)
+        {
+            lobEnabled = true;
         }
     }
 
@@ -370,13 +380,17 @@ public class pController : MonoBehaviour
             energy = 0f;
             energyOK = false;
         }
-        if(pcHurtTimer > 0f)
+        if (!energyOK)
+        {
+            spriteFlip.color = Color.gray;
+        }
+        else if(pcHurtTimer > 0f)
         {
             spriteFlip.color = new Color(1, 1, 1, 0.5f);
         }
         else
         {
-            spriteFlip.color = new Color(1, 1, 1, 1);
+            spriteFlip.color = Color.white;
         }
         pcHurtTimer -= Time.fixedDeltaTime;
         regenTimer -= Time.fixedDeltaTime;

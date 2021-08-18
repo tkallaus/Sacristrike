@@ -21,6 +21,11 @@ public class gameOverUI : MonoBehaviour
     
     void Update()
     {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
         if (pController.pcDead)
         {
             timer1 -= Time.deltaTime;

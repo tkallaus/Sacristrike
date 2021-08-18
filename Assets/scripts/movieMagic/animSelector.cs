@@ -6,7 +6,7 @@ public class animSelector : MonoBehaviour
 {
     private Animator anims;
     public string animName;
-    void Start()
+    void Awake()
     {
         anims = GetComponent<Animator>();
         anims.Play(animName);

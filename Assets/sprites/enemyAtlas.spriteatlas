@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: enemyAtlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 0
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 0
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 035e16ed30649234e8198846af2491aa, type: 3}
+    - {fileID: 2800000, guid: dbb855cb829e20f41af1f94ce2a9a575, type: 3}
+    - {fileID: 2800000, guid: 04582a92c9ce0ce4aa9f0143c6f7c65f, type: 3}
+    totalSpriteSurfaceArea: 8289
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: -6067672718842985316, guid: 04582a92c9ce0ce4aa9f0143c6f7c65f, type: 3}
+  - {fileID: -3588229512158965765, guid: 04582a92c9ce0ce4aa9f0143c6f7c65f, type: 3}
+  - {fileID: -2424553518018739129, guid: 04582a92c9ce0ce4aa9f0143c6f7c65f, type: 3}
+  - {fileID: 7801903984715115176, guid: 04582a92c9ce0ce4aa9f0143c6f7c65f, type: 3}
+  - {fileID: -6963195877183015321, guid: 04582a92c9ce0ce4aa9f0143c6f7c65f, type: 3}
+  - {fileID: -7366506907712603825, guid: 04582a92c9ce0ce4aa9f0143c6f7c65f, type: 3}
+  - {fileID: -5888845342232556802, guid: 04582a92c9ce0ce4aa9f0143c6f7c65f, type: 3}
+  - {fileID: -8797041637764437337, guid: 04582a92c9ce0ce4aa9f0143c6f7c65f, type: 3}
+  - {fileID: 5981802871748074552, guid: 04582a92c9ce0ce4aa9f0143c6f7c65f, type: 3}
+  - {fileID: 9095447551030933115, guid: dbb855cb829e20f41af1f94ce2a9a575, type: 3}
+  - {fileID: -887608336620260226, guid: dbb855cb829e20f41af1f94ce2a9a575, type: 3}
+  - {fileID: 8815602956719686981, guid: dbb855cb829e20f41af1f94ce2a9a575, type: 3}
+  - {fileID: 5879532933249936704, guid: 035e16ed30649234e8198846af2491aa, type: 3}
+  - {fileID: -6875693984060724655, guid: 035e16ed30649234e8198846af2491aa, type: 3}
+  - {fileID: 8065215198520230363, guid: 035e16ed30649234e8198846af2491aa, type: 3}
+  - {fileID: 292511346337569837, guid: 035e16ed30649234e8198846af2491aa, type: 3}
+  - {fileID: -6776676135277293862, guid: 035e16ed30649234e8198846af2491aa, type: 3}
+  - {fileID: 368543389579951487, guid: 035e16ed30649234e8198846af2491aa, type: 3}
+  - {fileID: -458641133534639524, guid: 035e16ed30649234e8198846af2491aa, type: 3}
+  - {fileID: 2542698315722941828, guid: 035e16ed30649234e8198846af2491aa, type: 3}
+  - {fileID: -3711818451352614709, guid: 035e16ed30649234e8198846af2491aa, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - boss_8
+  - boss_1
+  - boss_0
+  - boss_3
+  - boss_2
+  - boss_5
+  - boss_4
+  - boss_7
+  - boss_6
+  - spiderSS_2
+  - spiderSS_1
+  - spiderSS_0
+  - slime_8
+  - slime_4
+  - slime_5
+  - slime_6
+  - slime_7
+  - slime_0
+  - slime_1
+  - slime_2
+  - slime_3
+  m_Tag: enemyAtlas
+  m_IsVariant: 0
