@@ -29,7 +29,7 @@ public class bossLogic : MonoBehaviour
     private SpriteRenderer bossSprite;
     private bool busy = false;
     private float distanceToLeapPoint;
-    private int selectedLeapPoint;
+    private int selectedLeapPoint = 1;
     public GameObject bossWeapon;
     public Transform playerRef;
     public AnimationCurve leapCurve;
@@ -49,6 +49,11 @@ public class bossLogic : MonoBehaviour
     //Test/Debug//
     public float debugtimescale = 1;
     //Timer ref: At a speed of 1, it takes 314 iterations of patternTimer to touch the ground again
+
+    public GameObject audioObj;
+    private AudioSource[] sfxP;
+
+    public GameObject closedDoorObj;
     void Start()
     {
         //TerrainMovement//
@@ -84,6 +89,8 @@ public class bossLogic : MonoBehaviour
         rig = GetComponent<Rigidbody2D>();
         bossAnimator = bossObj.GetComponent<Animator>();
         bossSprite = bossObj.GetComponent<SpriteRenderer>();
+
+        sfxP = audioObj.GetComponents<AudioSource>();
     }
 
     private void FixedUpdate()
@@ -184,9 +191,10 @@ public class bossLogic : MonoBehaviour
                 timeAdded = true;
             }
         }
-        Debug.Log(HP);
+        //Debug.Log(HP);
         if (pController.pcDead)
         {
+            bossObj.transform.localPosition = Vector2.zero;
             transform.position = new Vector2(0, 200);
             rig.isKinematic = false;
             HP = 20;
@@ -197,11 +205,21 @@ public class bossLogic : MonoBehaviour
             bossWeapon.SetActive(false);
             bossSprite.flipX = false;
             rig.simulated = false;
-            for(int i = 0; i < 4; i++)
+            selectedLeapPoint = 1;
+            hangShootCount = Random.Range(0, 4);
+
+            sfxP[5].Stop();
+
+            for (int i = 0; i < 4; i++)
             {
                 patternArray[i].position = patternZeroPosition;
             }
+            closedDoorObj.SetActive(false);
             enabled = false;
+        }
+        else
+        {
+            closedDoorObj.SetActive(true);
         }
     }
 
@@ -215,25 +233,25 @@ public class bossLogic : MonoBehaviour
                 rig.isKinematic = true;
                 distanceToLeapPoint = Vector2.Distance(transform.position, leapPoints[0]);
             }
-            else
+        }
+        if(bossState != 1)
+        {
+            if (!busy)
             {
-                bossWeapon.SetActive(false);
+                sfxP[1].Play();
                 selectedLeapPoint++;
-                if(selectedLeapPoint >= leapPoints.Length)
+                if (selectedLeapPoint >= leapPoints.Length)
                 {
                     selectedLeapPoint = 0;
                 }
                 distanceToLeapPoint = Vector2.Distance(transform.position, leapPoints[selectedLeapPoint]);
+                bossWeapon.SetActive(false);
             }
-        }
-        if(bossState != 1)
-        {
             busy = true;
             transform.position = Vector2.MoveTowards(transform.position, leapPoints[selectedLeapPoint], distanceToLeapPoint / 100f);
             bossAnimator.Play("jumping");
             bossSprite.flipX = true;
             float distPercent = Vector2.Distance(transform.position, leapPoints[selectedLeapPoint]) / distanceToLeapPoint;
-
             bossObj.transform.localPosition = new Vector2(0, leapCurve.Evaluate(distPercent*2)) * 5;
 
             if (Vector2.Distance(transform.position, leapPoints[selectedLeapPoint]) == 0f)
@@ -244,6 +262,7 @@ public class bossLogic : MonoBehaviour
                 bossSprite.flipX = false;
                 //take out later?
                 bossAnimator.Play("hanging");
+                sfxP[2].Play();
             }
         }
     }
@@ -257,7 +276,7 @@ public class bossLogic : MonoBehaviour
         {
             if (hangShootCount >= 4)
             {
-                hangShootCount = 0;
+                hangShootCount = Random.Range(0, 4);
                 bossState = 2;
                 shootTimer = 0;
             }
@@ -318,6 +337,7 @@ public class bossLogic : MonoBehaviour
         if (patternTimer == 0)
         {
             differenceFromZero[0] = 0 - Time.time;
+            sfxP[4].Play();
         }
         if (patternTimer >= 0 && patternTimer <= 160)
         {
@@ -326,6 +346,7 @@ public class bossLogic : MonoBehaviour
         if (patternTimer == 40)
         {
             differenceFromZero[1] = 0 - Time.time;
+            sfxP[4].Play();
         }
         if (patternTimer >= 40 && patternTimer <= 360)
         {
@@ -334,6 +355,7 @@ public class bossLogic : MonoBehaviour
         if (patternTimer == 80)
         {
             differenceFromZero[2] = 0 - Time.time;
+            sfxP[4].Play();
         }
         if (patternTimer >= 80 && patternTimer <= 240)
         {
@@ -342,6 +364,7 @@ public class bossLogic : MonoBehaviour
         if (patternTimer == 120)
         {
             differenceFromZero[3] = 0 - Time.time;
+            sfxP[4].Play();
         }
         if (patternTimer >= 120 && patternTimer <= 440)
         {
@@ -371,12 +394,15 @@ public class bossLogic : MonoBehaviour
         hangShootCount++;
         Rigidbody2D temp = Instantiate(bullet, bulletspawn.position, bossWeapon.transform.rotation);
         temp.velocity = (playerRef.position - bulletspawn.position).normalized * 10;
+        sfxP[0].Play();
         yield return new WaitForSeconds(0.1f);
         temp = Instantiate(bullet, bulletspawn.position, bossWeapon.transform.rotation);
         temp.velocity = (playerRef.position - bulletspawn.position).normalized * 10;
+        sfxP[0].Play();
         yield return new WaitForSeconds(0.1f);
         temp = Instantiate(bullet, bulletspawn.position, bossWeapon.transform.rotation);
         temp.velocity = (playerRef.position - bulletspawn.position).normalized * 10;
+        sfxP[0].Play();
     }
     IEnumerator credsStart()
     {

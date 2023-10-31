@@ -6,6 +6,8 @@ public class lobUnlock : MonoBehaviour
 {
     public bool superlobUnlock = false;
 
+    public AudioClip itemGet;
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.layer == 9)
@@ -15,6 +17,7 @@ public class lobUnlock : MonoBehaviour
                 pController.SUPERLOB = true;
             }
             pController.lobEnabled = true;
+            AudioSource.PlayClipAtPoint(itemGet, transform.position);
             Destroy(gameObject);
         }
     }

@@ -14,9 +14,11 @@ public class lobSwitch : MonoBehaviour
     public Sprite inactiveSprite;
     public Sprite activeSprite;
     public bool resetOnDisable;
+    private AudioSource activateSFX;
     private void Start()
     {
         selected = (int)objectProtocol;
+        activateSFX = GetComponent<AudioSource>();
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -31,6 +33,7 @@ public class lobSwitch : MonoBehaviour
             transform.GetChild(0).gameObject.SetActive(true);
             GetComponent<SpriteRenderer>().sprite = activeSprite;
             GetComponent<CircleCollider2D>().enabled = false;
+            activateSFX.Play();
         }
     }
     private void OnDisable()

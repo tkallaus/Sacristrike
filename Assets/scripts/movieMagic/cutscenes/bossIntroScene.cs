@@ -6,7 +6,10 @@ public class bossIntroScene : cutsceneTemplate
 {
     //Actor Ref: 0 = Player, 1 = Boss, 2 = BossSprite/Colliders, 3 = RockParticleSystem, 4 = 1st wave terrain, 5-6 = 2nd wave terrain, 7-8 = 3rd wave terrain
     private float[] differenceFromZero;
-    private Vector2[] positions; 
+    private Vector2[] positions;
+    private AudioSource[] mp3Player;
+    public GameObject sfxObj;
+
     void Start()
     {
         positions = new Vector2[5];
@@ -16,6 +19,8 @@ public class bossIntroScene : cutsceneTemplate
         positions[3] = actors[7].transform.position;
         positions[4] = actors[8].transform.position;
         differenceFromZero = new float[3];
+
+        mp3Player = sfxObj.GetComponents<AudioSource>();
     }
 
     void FixedUpdate()
@@ -27,6 +32,7 @@ public class bossIntroScene : cutsceneTemplate
             actors[0].GetComponent<pController>().jumping = true;
             actors[1].transform.localPosition = new Vector2(0f, -5.71f);
             actors[3].GetComponent<ParticleSystem>().Play();
+            mp3Player[3].Play();
         }
         if(cutsceneTimer == 64)
         {
@@ -42,6 +48,8 @@ public class bossIntroScene : cutsceneTemplate
             actors[1].GetComponent<Rigidbody2D>().simulated = true;
             actors[1].GetComponent<Rigidbody2D>().velocity = new Vector2(4f, 20f);
             actors[2].GetComponent<Animator>().Play("jumping");
+            mp3Player[1].Play();
+            mp3Player[4].Play();
 
             differenceFromZero[0] = 0f - Time.time;
         }
@@ -52,6 +60,7 @@ public class bossIntroScene : cutsceneTemplate
         if (cutsceneTimer == 160)
         {
             differenceFromZero[1] = 0f - Time.time;
+            mp3Player[4].Play();
         }
         if (cutsceneTimer >= 160 && cutsceneTimer <= 474)
         {
@@ -61,6 +70,7 @@ public class bossIntroScene : cutsceneTemplate
         if (cutsceneTimer == 200)
         {
             differenceFromZero[2] = 0f - Time.time;
+            mp3Player[4].Play();
         }
         if (cutsceneTimer >= 200 && cutsceneTimer <= 514)
         {
@@ -80,6 +90,8 @@ public class bossIntroScene : cutsceneTemplate
             actors[8].transform.position = positions[4];
 
             actors[1].GetComponent<bossLogic>().enabled = true;
+
+            mp3Player[5].Play();
 
             gameObject.SetActive(false);
         }

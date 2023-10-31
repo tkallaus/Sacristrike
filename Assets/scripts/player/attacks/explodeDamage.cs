@@ -45,7 +45,7 @@ public class explodeDamage : MonoBehaviour
             {
                 if (pController.SUPERLOB)
                 {
-                    collision.gameObject.SendMessage("TakeDamage", new int[] { 3, hitID, 2, knockback }, SendMessageOptions.DontRequireReceiver);
+                    collision.gameObject.SendMessage("TakeDamage", new int[] { 10, hitID, 2, knockback }, SendMessageOptions.DontRequireReceiver);
                 }
                 else
                 {

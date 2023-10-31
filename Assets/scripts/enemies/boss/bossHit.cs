@@ -7,11 +7,14 @@ public class bossHit : MonoBehaviour
     private int[] hitIDs; //One for each possible source of damage; 0 = slash, 1 = lob, 2 = lobExplosion
     private SpriteRenderer spriteflash;
     private float flashtimer = -1f;
+    public GameObject sfxLibrary; //this is like the 3rd new name I came up with for this
+    private AudioSource[] mp3player;
 
     private void Start()
     {
         hitIDs = new int[3];
         spriteflash = GetComponent<SpriteRenderer>();
+        mp3player = sfxLibrary.GetComponents<AudioSource>();
     }
     private void Update()
     {
@@ -32,6 +35,7 @@ public class bossHit : MonoBehaviour
             bossLogic.HP -= inputs[0];
             hitIDs[inputs[2]] = inputs[1];
             flashtimer = 0.1f;
+            mp3player[6].Play();
         }
     }
 

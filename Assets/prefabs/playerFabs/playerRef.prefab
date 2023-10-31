@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6800979313404482562
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 984423047731400459}
+  m_Layer: 9
+  m_Name: sfxObj
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &984423047731400459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6800979313404482562}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8482323205634484181}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8482323205634484180
 GameObject:
   m_ObjectHideFlags: 0
@@ -33,6 +63,7 @@ Transform:
   - {fileID: 8482323206423023137}
   - {fileID: 8482323207086275333}
   - {fileID: 8482323206868010915}
+  - {fileID: 984423047731400459}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -48,19 +79,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4533b086ed862b849b828fcd5680fbba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 7
+  jumping: 0
+  horizontalAxis: 0
+  movementSpeed: 6
   jumpHeight: 15
   player: {fileID: 8482323206398351688}
   frictionMat: {fileID: 6200000, guid: 7969bcda778bf5e4e9d211c46abac11e, type: 2}
   slashObject: {fileID: 8482323206423023136}
-  slashCost: 2
+  slashCost: 5
   lobSpawn: {fileID: 8482323207086275333}
   lobPower: 5
   lob: {fileID: 3404234168543136410, guid: 45c0fb723aca5694e950983aa2db685d, type: 3}
   lobChargePower: 10
-  lobCost: 10
-  regenRate: 10
-  debugTimescale: 0
+  lobCost: 20
+  regenRate: 50
+  audioObj: {fileID: 6800979313404482562}
 --- !u!50 &8482323205634484183
 Rigidbody2D:
   serializedVersion: 4
@@ -384,6 +417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf24bf501f883a04e8ca19c00af3b2af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reflectionCost: 0
   knockback: 0
   hitID: 1
 --- !u!50 &8482323206423023150

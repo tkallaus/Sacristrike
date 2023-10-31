@@ -110,7 +110,7 @@ MonoBehaviour:
   - {x: -0.3775301, y: 0.1888054, z: 0}
   m_ShapePathHash: -1860003569
   m_Mesh: {fileID: 0}
-  m_InstanceId: 44950
+  m_InstanceId: 74688
 --- !u!1 &4869577125041664332
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,7 +469,7 @@ MonoBehaviour:
   spiderShot: {fileID: -6760141627328808967, guid: 6ca385f3c0dbeb54c9ad14877d762342, type: 3}
   shotSpeed: 3
   reloadMaxTimer: 3
-  HP: 5
+  HP: 1
 --- !u!1 &6748860853317273717
 GameObject:
   m_ObjectHideFlags: 0

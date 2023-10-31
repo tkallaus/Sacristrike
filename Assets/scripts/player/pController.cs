@@ -78,6 +78,16 @@ public class pController : MonoBehaviour
     private bool cutsceneControlled = false;
 
     public static Stopwatch speedrunTimer;
+
+    public GameObject audioObj;
+    private AudioSource[] sfxP; //0 slash, 1 footstep, 2 hurtsound, 3 chargesound, 4 smashlight, 5 powerDown
+
+    private int slashAudioPitchCounter = 0;
+    private float slashAudioPitchTimer = 2f;
+    private float walkSfxTimer = 0.21515f; //half the animation clip time
+    private float chargeSfxTimer = 0f;
+    private bool powerDownSFX = false;
+    private bool pcDeadSFX = false;
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
@@ -100,6 +110,8 @@ public class pController : MonoBehaviour
 
         speedrunTimer = new Stopwatch();
         speedrunTimer.Start();
+
+        sfxP = audioObj.GetComponents<AudioSource>();
     }
     
     void Update()
@@ -163,6 +175,21 @@ public class pController : MonoBehaviour
             if (Input.GetButtonDown("Fire1") && energyOK && !cutsceneControlled)
             {
                 slashing = true;
+
+                sfxP[0].pitch = 1f + slashAudioPitchCounter * 0.02f;
+                sfxP[0].Play();
+
+                slashAudioPitchCounter++;
+                slashAudioPitchTimer = 1f;
+            }
+            
+            if(slashAudioPitchCounter > 0)
+            {
+                slashAudioPitchTimer -= Time.deltaTime;
+                if(slashAudioPitchTimer < 0)
+                {
+                    slashAudioPitchCounter = 0;
+                }
             }
 
             if (Input.GetButton("Fire2") && lobTimer == 0.5f && energyOK && lobEnabled && !cutsceneControlled)
@@ -229,7 +256,7 @@ public class pController : MonoBehaviour
         {
             if (!jumpTriggerActive && collisionActive && touchedCollision.y < 0.1f && touchedCollision.y > -0.1f)
             {
-                rig.velocity = new Vector2(touchedCollision.x * 10, jumpHeight / 1.5f);
+                rig.velocity = new Vector2(touchedCollision.x * 10, jumpHeight / 1.25f);
                 wallJumped = true;
                 jumpCount = 0;
                 jumping = false;
@@ -299,6 +326,26 @@ public class pController : MonoBehaviour
             }
             lobChargeAnims.SetFloat("lobPower", lobPower);
 
+            //SFX Section
+            if(lobPower > 19f)
+            {
+                sfxP[3].pitch = 1.2f;
+            }
+            else if(lobPower > 10f)
+            {
+                sfxP[3].pitch = 1.1f;
+            }
+            else
+            {
+                sfxP[3].pitch = 1f;
+            }
+            if(chargeSfxTimer < 0f)
+            {
+                sfxP[3].Play();
+                chargeSfxTimer = 0.5f;
+            }
+            chargeSfxTimer -= Time.fixedDeltaTime;
+            //SFX end
             SetTrajectoryPoints(lobSpawn.position, lobSpawn.up);
         }
         else if (lobbing)
@@ -308,6 +355,8 @@ public class pController : MonoBehaviour
                 Rigidbody2D obj = Instantiate(lob, lobSpawn.position, transform.rotation);
                 obj.velocity = lobSpawn.up * lobPower;
                 pcTakeDamage(lobCost, true);
+                sfxP[5].Play();
+                chargeSfxTimer = 0f;
             }
             lobTimer -= Time.fixedDeltaTime;
             if (lobTimer < 0f)
@@ -356,6 +405,8 @@ public class pController : MonoBehaviour
                 {
                     rig.velocity = new Vector2(-10, 10);
                 }
+                sfxP[2].pitch = Random.Range(0.8f, 1.2f);
+                sfxP[2].Play(); //hurtSfx
             }
             takingDamageTimer -= Time.deltaTime;
         }
@@ -395,6 +446,27 @@ public class pController : MonoBehaviour
         pcHurtTimer -= Time.fixedDeltaTime;
         regenTimer -= Time.fixedDeltaTime;
 
+        if(!energyOK && !powerDownSFX)
+        {
+            sfxP[4].pitch = 1f;
+            sfxP[4].Play();
+            powerDownSFX = true;
+        }
+        else if (energyOK)
+        {
+            powerDownSFX = false;
+        }
+        if(pcDead && !pcDeadSFX)
+        {
+            sfxP[4].pitch = 0.8f;
+            sfxP[4].Play();
+            pcDeadSFX = true;
+        }
+        else if (!pcDead)
+        {
+            pcDeadSFX = false;
+        }
+
         if(!wallJumped && !takingDamage)
         {
             rig.velocity = new Vector2(pFinalSpeed.x, rig.velocity.y);
@@ -404,6 +476,16 @@ public class pController : MonoBehaviour
         {
             rig.velocity = new Vector2(rig.velocity.x, pFinalSpeed.y) ;
             pFinalSpeed.y = 0;
+        }
+        
+        if(moving && jumpTriggerActive && !pcDead)
+        {
+            walkSfxTimer -= Time.fixedDeltaTime;
+            if(walkSfxTimer < 0f)
+            {
+                walkSfxTimer = 0.21515f;
+                sfxP[1].Play();
+            }
         }
     }
     public static void pcTakeDamage(float amount, bool nonviolent = false)

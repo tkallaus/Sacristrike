@@ -30,6 +30,8 @@ public class slime : MonoBehaviour
 
     private Color redflash;
 
+    private AudioSource squishFX;
+    private bool sfxOneShot = true;
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
@@ -40,6 +42,8 @@ public class slime : MonoBehaviour
         spriteFlip = GetComponent<SpriteRenderer>();
         animationController = GetComponent<Animator>();
         redflash = new Color(1, 0.5f, 0.5f);
+
+        squishFX = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -60,10 +64,17 @@ public class slime : MonoBehaviour
         if(collisionActive && jumpTrigActive)
         {
             landed = true;
+            if (sfxOneShot)
+            {
+                sfxOneShot = false;
+                squishFX.pitch = Random.Range(0.9f, 1.1f);
+                squishFX.Play();
+            }
         }
         else
         {
             landed = false;
+            sfxOneShot = true;
         }
         if (Mathf.Abs(playerDistance) < 9f && landed && cooldownTimer < 0f && tookDamageTimer < 0f)
         {
@@ -93,11 +104,15 @@ public class slime : MonoBehaviour
             {
                 if (moveRight)
                 {
-                    rig.velocity = new Vector2(10, 7);
+                    Vector2 jumpV = new Vector2(10, 7);
+                    rig.velocity = jumpV;
+                    StartCoroutine(jumpExtraFrame(jumpV, rig));
                 }
                 else
                 {
-                    rig.velocity = new Vector2(-10, 7);
+                    Vector2 jumpV = new Vector2(-10, 7);
+                    rig.velocity = jumpV;
+                    StartCoroutine(jumpExtraFrame(jumpV, rig));
                 }
                 actionTimer = 1f;
                 timeToAttack = false;
@@ -119,7 +134,9 @@ public class slime : MonoBehaviour
                     }
                     else
                     {
-                        rig.velocity = new Vector2(5, 7);
+                        Vector2 jumpV = new Vector2(5, 7);
+                        rig.velocity = jumpV;
+                        StartCoroutine(jumpExtraFrame(jumpV, rig));
                     }
                 }
                 else
@@ -130,7 +147,9 @@ public class slime : MonoBehaviour
                     }
                     else
                     {
-                        rig.velocity = new Vector2(-5, 7);
+                        Vector2 jumpV = new Vector2(-5, 7);
+                        rig.velocity = jumpV;
+                        StartCoroutine(jumpExtraFrame(jumpV, rig));
                     }
                 }
                 if (landed)
@@ -209,5 +228,11 @@ public class slime : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         climbing = false;
+    }
+
+    public IEnumerator jumpExtraFrame(Vector2 jumpVec, Rigidbody2D rigToApply) //My hotfix to conveyorbelt movement, turns out it makes them more dangerous as well
+    {
+        yield return new WaitForSeconds(Time.fixedDeltaTime);
+        rigToApply.velocity = jumpVec;
     }
 }

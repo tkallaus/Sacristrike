@@ -9,9 +9,11 @@ public class introCutscene : cutsceneTemplate
     private Color flashColor;
     public GameObject player;
     public GameObject UI;
+    private AudioSource[] sfx;
     private void Start()
     {
         flashColor = Color.white;
+        sfx = actors[0].GetComponents<AudioSource>();
     }
     private void Update()
     {
@@ -23,6 +25,9 @@ public class introCutscene : cutsceneTemplate
         {
             actors[0].GetComponent<Rigidbody2D>().velocity = new Vector2(5, 3);
             actors[0].GetComponent<Animator>().Play("shocked");
+            sfx[0].Stop();
+            sfx[3].Play();
+            sfx[2].Play();
             actors[1].transform.parent = null;
             actors[2].SetActive(true);
             actors[3].GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 0.8f;
@@ -43,6 +48,7 @@ public class introCutscene : cutsceneTemplate
         if (cutsceneTimer == 70)
         {
             actors[2].SetActive(true);
+            sfx[1].Play();
             actors[6].SetActive(true);
             actors[3].GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 0.9f;
         }
@@ -53,6 +59,7 @@ public class introCutscene : cutsceneTemplate
         if (cutsceneTimer == 140)
         {
             actors[2].SetActive(true);
+            sfx[1].Play();
             actors[7].SetActive(true);
             actors[3].GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 1.0f;
         }
@@ -67,6 +74,7 @@ public class introCutscene : cutsceneTemplate
         if (cutsceneTimer == 210)
         {
             actors[2].SetActive(true);
+            sfx[1].Play();
             actors[8].SetActive(true);
             actors[3].GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 1.1f;
         }
@@ -77,6 +85,7 @@ public class introCutscene : cutsceneTemplate
         if (cutsceneTimer == 245)
         {
             actors[2].SetActive(true);
+            sfx[1].Play();
             actors[9].SetActive(true);
             actors[3].GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 1.2f;
         }
@@ -86,6 +95,7 @@ public class introCutscene : cutsceneTemplate
         }
         if (cutsceneTimer == 800)
         {
+            sfx[3].Stop();
             player.SetActive(true);
             UI.SetActive(true);
             actors[3].GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 0f;
